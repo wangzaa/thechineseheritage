@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The Chinese Heritage offers a curated collection of fine Chinese antiques including Qing Dynasty porcelains, jade carvings, cinnabar lacquerware, and traditional paintings. Located at Lucky Plaza, Singapore.">
+    <meta name="keywords" content="Chinese antiques, Qing Dynasty porcelain, jade carvings, cinnabar lacquer, famille rose, blue and white porcelain, Singapore antiques">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="The Chinese Heritage - Fine Chinese Antiques">
+    <meta property="og:description" content="Curated collection of fine Chinese antiques including Qing Dynasty porcelains, jade carvings, and cinnabar lacquerware in Singapore.">
+    <meta property="og:image" content="images/logo.gif">
+    <meta property="og:url" content="https://thechineseheritage.com">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="images/logo.gif">
+
+    <title>The Chinese Heritage - Fine Chinese Antiques</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background-color: #FFFFFF;
+            color: #1A1A1A;
+            line-height: 1.7;
+        }
+
+        header {
+            background: #FFFFFF;
+            padding: 20px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #E5E0D8;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo:hover {
+            opacity: 0.7;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .nav-link {
+            color: #1A1A1A;
+            text-decoration: none;
+            padding: 10px 16px;
+            border: 1px solid #1A1A1A;
+            transition: all 0.3s ease;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-link:hover {
+            background: #1A1A1A;
+            color: #FFFFFF;
+        }
+
+        .hero {
+            background: #F8F6F3;
+            padding: 90px 40px;
+            text-align: center;
+            border-bottom: 1px solid #E5E0D8;
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            color: #1A1A1A;
+            margin-bottom: 28px;
+            font-weight: 400;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            max-width: 680px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+            color: #5A5A5A;
+            line-height: 1.9;
+        }
+
+        .category-section {
+            padding: 80px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .category-section:nth-child(even) {
+            background: #FAFAF8;
+        }
+
+        .category-section h2 {
+            text-align: center;
+            color: #1A1A1A;
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .category-description {
+            text-align: center;
+            color: #6A6A6A;
+            font-size: 0.95rem;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            font-style: italic;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            cursor: pointer;
+            background: #F5F3F0;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease, opacity 0.3s ease;
+        }
+
+        .gallery-item:hover img,
+        .gallery-item:focus img {
+            transform: scale(1.04);
+            opacity: 0.92;
+        }
+
+        .gallery-item:focus {
+            outline: 2px solid #1A1A1A;
+            outline-offset: 2px;
+        }
+
+        .gallery-item:focus-visible {
+            outline: 2px solid #1A1A1A;
+            outline-offset: 2px;
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 85vw;
+            max-height: 85vh;
+            object-fit: contain;
+            box-shadow: 0 8px 50px rgba(0, 0, 0, 0.12);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: #1A1A1A;
+            font-size: 28px;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            font-weight: 300;
+            background: none;
+            border: none;
+            padding: 10px;
+            line-height: 1;
+        }
+
+        .lightbox-close:hover,
+        .lightbox-close:focus {
+            opacity: 1;
+            outline: none;
+        }
+
+        .lightbox-close:focus-visible {
+            outline: 2px solid #1A1A1A;
+            outline-offset: 2px;
+        }
+
+        footer {
+            background: #F8F6F3;
+            padding: 60px 40px 40px;
+            color: #6A6A6A;
+            border-top: 1px solid #E5E0D8;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            flex-wrap: wrap;
+            text-align: center;
+        }
+
+        .footer-address h3 {
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #1A1A1A;
+            margin-bottom: 15px;
+        }
+
+        .footer-address p {
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .footer-social {
+            display: flex;
+            align-items: center;
+        }
+
+        .facebook-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1A1A1A;
+            text-decoration: none;
+            padding: 12px 24px;
+            border: 1px solid #1A1A1A;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .facebook-link:hover {
+            background: #1A1A1A;
+            color: #FFFFFF;
+        }
+
+        .facebook-link svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .footer-copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #E5E0D8;
+        }
+
+        .footer-copyright p {
+            font-size: 0.85rem;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .header-content {
+                justify-content: center;
+            }
+
+            nav {
+                justify-content: center;
+            }
+
+            .nav-link {
+                padding: 8px 12px;
+                font-size: 9px;
+            }
+
+            .hero {
+                padding: 60px 20px;
+            }
+
+            .hero h1 {
+                font-size: 1.6rem;
+                letter-spacing: 2px;
+            }
+
+            .hero p {
+                font-size: 0.95rem;
+            }
+
+            .category-section {
+                padding: 50px 20px;
+            }
+
+            .category-section h2 {
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+            }
+
+            .category-description {
+                font-size: 0.85rem;
+                margin-bottom: 35px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 12px;
+            }
+
+            .footer-content {
+                gap: 40px;
+            }
+
+            .facebook-link {
+                padding: 10px 18px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+
+    <!-- Structured Data for Local Business -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "AntiqueDealers",
+        "name": "The Chinese Heritage",
+        "description": "Fine Chinese antiques including Qing Dynasty porcelains, jade carvings, cinnabar lacquerware, and traditional paintings.",
+        "image": "images/logo.gif",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "304 Orchard Road, #02-55 Lucky Plaza",
+            "addressLocality": "Singapore",
+            "postalCode": "238863",
+            "addressCountry": "SG"
+        },
+        "url": "https://thechineseheritage.com",
+        "sameAs": [
+            "https://www.facebook.com/antiqueappreciation/"
+        ]
+    }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo" aria-label="Return to top of page">
+                <img src="images/logo.gif" alt="The Chinese Heritage" width="120" height="50">
+            </a>
+            <nav>
+                <a href="#powder-blue" class="nav-link">Powder Blue & Gilt</a>
+                <a href="#blue-monochrome" class="nav-link">Blue Monochrome</a>
+                <a href="#famille-rose" class="nav-link">Famille Rose</a>
+                <a href="#blue-white" class="nav-link">Blue & White</a>
+                <a href="#yellow-ground" class="nav-link">Imperial Yellow</a>
+                <a href="#cinnabar" class="nav-link">Cinnabar Lacquer</a>
+                <a href="#jade" class="nav-link">Jade Carvings</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>The Chinese Heritage</h1>
+        <p>Our collection features Chinese antique porcelains, paintings, jade carvings, and fine woodwork—each an original piece reflecting the artistry of skilled craftsmen. Collectors worldwide trust us as their source for exceptional works of art.</p>
+    </section>
+
+    <!-- Powder Blue & Gilt Porcelain -->
+    <section id="powder-blue" class="category-section">
+        <h2>Powder Blue & Gilt Porcelain</h2>
+        <p class="category-description">Qing Dynasty porcelain with powder blue glaze and gilt decoration featuring Shou (壽) longevity symbols and auspicious medallions</p>
+        <div class="gallery-grid">
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8099.jpg')">
+                <img src="images/thumbnails/_MG_8099.jpg" alt="Powder Blue Tianqiu Vase with Gilt Shou Symbols" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8102.jpg')">
+                <img src="images/thumbnails/_MG_8102.jpg" alt="Gilt Decoration Detail with Longevity Characters" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8108.jpg')">
+                <img src="images/thumbnails/_MG_8108.jpg" alt="Gilt Medallion Detail" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8113.jpg')">
+                <img src="images/thumbnails/_MG_8113.jpg" alt="Gilt Shou Character Detail" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- Blue Monochrome Glazed Porcelain -->
+    <section id="blue-monochrome" class="category-section">
+        <h2>Blue Monochrome Glazed Porcelain</h2>
+        <p class="category-description">Elegant blue-glazed porcelain vessels including Cong vases with elephant head handles in the archaic style</p>
+        <div class="gallery-grid">
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8129.jpg')">
+                <img src="images/thumbnails/_MG_8129.jpg" alt="Blue Glazed Cong Vase with Elephant Handles" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8134.jpg')">
+                <img src="images/thumbnails/_MG_8134.jpg" alt="Blue Glazed Cong Vase Detail" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8137.jpg')">
+                <img src="images/thumbnails/_MG_8137.jpg" alt="Blue Monochrome Porcelain" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8152.jpg')">
+                <img src="images/thumbnails/_MG_8152.jpg" alt="Blue Glazed Vase Top View" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8260.jpg')">
+                <img src="images/thumbnails/_MG_8260.jpg" alt="Blue Monochrome Stem Cup" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8263.jpg')">
+                <img src="images/thumbnails/_MG_8263.jpg" alt="Blue Stem Cup Rim Detail" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8264.jpg')">
+                <img src="images/thumbnails/_MG_8264.jpg" alt="Blue Stem Cup Foot Detail" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8266.jpg')">
+                <img src="images/thumbnails/_MG_8266.jpg" alt="Blue Stem Cup Mark" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- Famille Rose Dayazhai Porcelain -->
+    <section id="famille-rose" class="category-section">
+        <h2>Famille Rose "Dayazhai" Porcelain</h2>
+        <p class="category-description">Imperial porcelain from the Guangxu Period bearing the Dayazhai (大雅齋) mark, made for Empress Dowager Cixi's palace, decorated with peonies, peaches, and birds</p>
+        <div class="gallery-grid">
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8162.jpg')">
+                <img src="images/thumbnails/_MG_8162.jpg" alt="Pair of Dayazhai Jardinières with Peony and Peach" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8168.jpg')">
+                <img src="images/thumbnails/_MG_8168.jpg" alt="Dayazhai Jardinière with Floral Decoration" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8174.jpg')">
+                <img src="images/thumbnails/_MG_8174.jpg" alt="Famille Rose Jardinière Detail" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8177.jpg')">
+                <img src="images/thumbnails/_MG_8177.jpg" alt="Dayazhai Mark and Seal" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8182.jpg')">
+                <img src="images/thumbnails/_MG_8182.jpg" alt="Dayazhai Porcelain" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8184.jpg')">
+                <img src="images/thumbnails/_MG_8184.jpg" alt="Famille Rose Decoration" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8185.jpg')">
+                <img src="images/thumbnails/_MG_8185.jpg" alt="Dayazhai Jardinière" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8186.jpg')">
+                <img src="images/thumbnails/_MG_8186.jpg" alt="Famille Rose Detail" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- Blue & White Porcelain -->
+    <section id="blue-white" class="category-section">
+        <h2>Blue & White Porcelain</h2>
+        <p class="category-description">Imperial blue and white porcelain from the Qing Dynasty, featuring dragon motifs and auspicious designs with authentic Yongzheng and Jiaqing reign marks</p>
+        <div class="gallery-grid">
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8227.jpg')">
+                <img src="images/thumbnails/_MG_8227.jpg" alt="Blue & White Bowl" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8229.jpg')">
+                <img src="images/thumbnails/_MG_8229.jpg" alt="Blue & White Porcelain" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8231.jpg')">
+                <img src="images/thumbnails/_MG_8231.jpg" alt="Jiaqing Reign Mark" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8233.jpg')">
+                <img src="images/thumbnails/_MG_8233.jpg" alt="Blue & White Bowl" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8235.jpg')">
+                <img src="images/thumbnails/_MG_8235.jpg" alt="Blue & White Porcelain" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8238.jpg')">
+                <img src="images/thumbnails/_MG_8238.jpg" alt="Blue & White Bowl" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8239.jpg')">
+                <img src="images/thumbnails/_MG_8239.jpg" alt="Blue & White Detail" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8245.jpg')">
+                <img src="images/thumbnails/_MG_8245.jpg" alt="Blue & White Porcelain" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8246.jpg')">
+                <img src="images/thumbnails/_MG_8246.jpg" alt="Yongzheng Reign Mark" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- Imperial Yellow Ground Porcelain -->
+    <section id="yellow-ground" class="category-section">
+        <h2>Imperial Yellow Ground Porcelain</h2>
+        <p class="category-description">Prized yellow-ground porcelains from the Qing Dynasty, featuring dishes with underglaze blue floral sprays and Famille Rose bowls bearing Xianfeng marks—the luminous yellow glaze a symbol of imperial authority</p>
+        <div class="gallery-grid">
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8252.jpg')">
+                <img src="images/thumbnails/_MG_8252.jpg" alt="Pair of Yellow Ground Dishes with Blue Floral Medallions" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8253.jpg')">
+                <img src="images/thumbnails/_MG_8253.jpg" alt="Yellow Ground Dish with Blue Flowers" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8258.jpg')">
+                <img src="images/thumbnails/_MG_8258.jpg" alt="Yellow Ground Detail" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8327.jpg')">
+                <img src="images/thumbnails/_MG_8327.jpg" alt="Yellow Famille Rose Bowl with Xianfeng Mark" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8331.jpg')">
+                <img src="images/thumbnails/_MG_8331.jpg" alt="Yellow Famille Rose Bowl" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8336.jpg')">
+                <img src="images/thumbnails/_MG_8336.jpg" alt="Yellow Famille Rose Bowl with Floral Design" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- Carved Cinnabar Lacquer -->
+    <section id="cinnabar" class="category-section">
+        <h2>Carved Cinnabar Lacquer</h2>
+        <p class="category-description">Qing Dynasty carved cinnabar lacquerware with intricate floral panels featuring chrysanthemums and peony in deep relief</p>
+        <div class="gallery-grid">
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8275.jpg')">
+                <img src="images/thumbnails/_MG_8275.jpg" alt="Carved Cinnabar Lacquer Box with Floral Panels" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8277.jpg')">
+                <img src="images/thumbnails/_MG_8277.jpg" alt="Cinnabar Lacquer Chrysanthemum Detail" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8278.jpg')">
+                <img src="images/thumbnails/_MG_8278.jpg" alt="Carved Lacquer Detail" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8279.jpg')">
+                <img src="images/thumbnails/_MG_8279.jpg" alt="Cinnabar Lacquer Box" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- Jade Carvings -->
+    <section id="jade" class="category-section">
+        <h2>Jade Carvings</h2>
+        <p class="category-description">Exquisite white jade carvings including rhyton libation cups with chilong dragons and auspicious figures such as mandarin ducks</p>
+        <div class="gallery-grid">
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8284.jpg')">
+                <img src="images/thumbnails/_MG_8284.jpg" alt="White Jade Carvings" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8290.jpg')">
+                <img src="images/thumbnails/_MG_8290.jpg" alt="White Jade Pendants and Carvings" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8292.jpg')">
+                <img src="images/thumbnails/_MG_8292.jpg" alt="White Jade Carving" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8295.jpg')">
+                <img src="images/thumbnails/_MG_8295.jpg" alt="Jade Pendant" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8297.jpg')">
+                <img src="images/thumbnails/_MG_8297.jpg" alt="White Jade Carving" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8299.jpg')">
+                <img src="images/thumbnails/_MG_8299.jpg" alt="Jade Carving" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8304.jpg')">
+                <img src="images/thumbnails/_MG_8304.jpg" alt="White Jade" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8306.jpg')">
+                <img src="images/thumbnails/_MG_8306.jpg" alt="White Jade Rhyton Cup with Chilong Dragon Handle" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8310.jpg')">
+                <img src="images/thumbnails/_MG_8310.jpg" alt="Jade Libation Cup" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8311.jpg')">
+                <img src="images/thumbnails/_MG_8311.jpg" alt="Jade Carving Detail" loading="lazy">
+            </div>
+            <div class="gallery-item" role="button" tabindex="0" onclick="openLightbox('images/full/_MG_8313.jpg')">
+                <img src="images/thumbnails/_MG_8313.jpg" alt="White Jade Mandarin Ducks with Lotus" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-address">
+                <h3>Visit Us</h3>
+                <p>304 Orchard Road<br>
+                #02-55 Lucky Plaza<br>
+                (Side Facing C.K. Tang Store)<br>
+                Singapore 238863</p>
+            </div>
+            <div class="footer-social">
+                <a href="https://www.facebook.com/antiqueappreciation/" target="_blank" rel="noopener noreferrer" class="facebook-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
+                    <span>Follow us on Facebook</span>
+                </a>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <p>&copy; 2025 The Chinese Heritage.</p>
+        </div>
+    </footer>
+
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close lightbox">&times;</button>
+        <img id="lightbox-img" src="" alt="Full size image">
+    </div>
+
+    <script>
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            // Focus the close button for accessibility
+            document.querySelector('.lightbox-close').focus();
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        // Smooth scroll navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Keyboard support for gallery items
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
+        // Smooth scroll for logo
+        document.querySelector('.logo').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
