@@ -298,6 +298,88 @@
             letter-spacing: 0.5px;
         }
 
+        /* Carousel Styles */
+        .carousel-section {
+            background: #1A1A1A;
+            padding: 60px 0;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .carousel-slide img {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #FFFFFF;
+            width: 44px;
+            height: 44px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .carousel-btn.prev {
+            left: 10px;
+        }
+
+        .carousel-btn.next {
+            right: 10px;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: #FFFFFF;
+        }
+
         @media (max-width: 768px) {
             header {
                 padding: 15px 20px;
@@ -356,6 +438,24 @@
                 padding: 10px 18px;
                 font-size: 0.8rem;
             }
+
+            .carousel-section {
+                padding: 40px 0;
+            }
+
+            .carousel-container {
+                padding: 0 50px;
+            }
+
+            .carousel-slide img {
+                max-height: 250px;
+            }
+
+            .carousel-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
         }
     </style>
 
@@ -401,7 +501,7 @@
 
     <section class="hero">
         <h1>The Chinese Heritage</h1>
-        <p>Our collection features Chinese antique porcelains, paintings, jade carvings, and fine woodwork—each an original piece reflecting the artistry of skilled craftsmen. Collectors worldwide trust us as their source for exceptional works of art.</p>
+        <p>Since 1978, two generations of expertise have guided our pursuit of the finest Chinese antiques and works of art. Our collection encompasses antique porcelain, classical painting, jade, and fine woodwork—each piece carefully selected for its craftsmanship and historical significance.</p>
     </section>
 
     <!-- Powder Blue & Gilt Porcelain -->
@@ -586,6 +686,34 @@
         </div>
     </section>
 
+    <!-- Image Carousel -->
+    <section class="carousel-section">
+        <div class="carousel-container">
+            <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+            <div class="carousel-track">
+                <div class="carousel-slide">
+                    <img src="images/carousel/jade.jpg" alt="White Jade Rhyton Cup">
+                </div>
+                <div class="carousel-slide">
+                    <img src="images/carousel/painting.jpg" alt="Chinese Painting with Peonies and Butterflies">
+                </div>
+                <div class="carousel-slide">
+                    <img src="images/carousel/procelain.jpg" alt="Famille Rose Porcelain Vase and Dish">
+                </div>
+                <div class="carousel-slide">
+                    <img src="images/carousel/snuffbottles.png" alt="Collection of Chinese Snuff Bottles">
+                </div>
+            </div>
+            <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+            <div class="carousel-dots">
+                <button class="carousel-dot active" aria-label="Go to slide 1"></button>
+                <button class="carousel-dot" aria-label="Go to slide 2"></button>
+                <button class="carousel-dot" aria-label="Go to slide 3"></button>
+                <button class="carousel-dot" aria-label="Go to slide 4"></button>
+            </div>
+        </div>
+    </section>
+
     <footer>
         <div class="footer-content">
             <div class="footer-address">
@@ -656,6 +784,61 @@
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
+
+        // Carousel functionality
+        const carouselTrack = document.querySelector('.carousel-track');
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+        const prevBtn = document.querySelector('.carousel-btn.prev');
+        const nextBtn = document.querySelector('.carousel-btn.next');
+        let currentSlide = 0;
+        let autoPlayInterval;
+
+        function goToSlide(index) {
+            if (index < 0) index = slides.length - 1;
+            if (index >= slides.length) index = 0;
+            currentSlide = index;
+            carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            resetAutoPlay();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            resetAutoPlay();
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                goToSlide(index);
+                resetAutoPlay();
+            });
+        });
+
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(nextSlide, 5000);
+        }
+
+        function resetAutoPlay() {
+            clearInterval(autoPlayInterval);
+            startAutoPlay();
+        }
+
+        startAutoPlay();
     </script>
 </body>
 </html>
